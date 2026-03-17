@@ -1,0 +1,14 @@
+# Pasta de configurações do Visual Studio
+.vs/
+
+# Pasta de configurações do VS Code
+.vscode/
+
+# Pastas de compilação e binários (Essenciais para .NET/ASP.NET)
+bin/
+obj/
+
+# Arquivos de usuário e caches
+*.user
+*.suo
+.cache/
