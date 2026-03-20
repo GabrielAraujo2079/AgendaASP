@@ -15,5 +15,6 @@ namespace agenda.Data
         }
 
         public DbSet<agenda.Models.Agenda> Agenda { get; set; } = default!;
+        public DbSet<Produto> Produtos { get; set; } = default!;
     }
 }
