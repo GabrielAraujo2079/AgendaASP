@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agenda.Data;
 using agenda.Models;
+using System.Diagnostics;
+using System.Diagnostics;
+using agenda.Models;
 
 namespace agenda.Controllers
 {
@@ -152,6 +155,11 @@ namespace agenda.Controllers
         private bool AgendaExists(int id)
         {
             return _context.Agenda.Any(e => e.Id == id);
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
