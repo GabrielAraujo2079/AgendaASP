@@ -9,56 +9,79 @@
     Layout = "_Layout";
 }
 
-<h1>Edit</h1>
-
-<h4>ItemVenda</h4>
+<h1>Editar Item de Venda</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+
             <div class="form-group">
-                <label asp-for="Id_Agenda" class="control-label"></label>
-                <input asp-for="Id_Agenda" class="form-control" />
+                <label asp-for="Id_Agenda" class="control-label">Cliente</label>
+                <select asp-for="Id_Agenda" class="form-control" asp-items="ViewBag.Clientes">
+                    <option value="">-- Selecione o cliente --</option>
+                </select>
                 <span asp-validation-for="Id_Agenda" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Id_Produto" class="control-label"></label>
-                <input asp-for="Id_Produto" class="form-control" />
+                <label asp-for="Id_Produto" class="control-label">Produto</label>
+                <select asp-for="Id_Produto" id="selectProduto" class="form-control" asp-items="ViewBag.Produtos">
+                    <option value="">-- Selecione o produto --</option>
+                </select>
                 <span asp-validation-for="Id_Produto" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">Nome do Produto</label>
+                <input id="nomeProdutoDisplay" class="form-control" readonly value="@Model.NomeProduto" />
+            </div>
+
+            <input type="hidden" asp-for="NomeProduto" id="nomeProdutoHidden" />
+            <input type="hidden" asp-for="NomeCliente" />
+
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
                 <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NomeCliente" class="control-label"></label>
-                <input asp-for="NomeCliente" class="form-control" />
-                <span asp-validation-for="NomeCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NomeProduto" class="control-label"></label>
-                <input asp-for="NomeProduto" class="form-control" />
-                <span asp-validation-for="NomeProduto" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
+                <input asp-for="Data" class="form-control" type="datetime-local" />
                 <span asp-validation-for="Data" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="form-group mt-2">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar à Lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('selectProduto').addEventListener('change', function () {
+            const id = this.value;
+            if (!id) {
+                document.getElementById('nomeProdutoDisplay').value = '';
+                document.getElementById('nomeProdutoHidden').value = '';
+                return;
+            }
+            fetch('/ItemVendas/GetProduto/' + id)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('nomeProdutoDisplay').value = data.nome;
+                    document.getElementById('nomeProdutoHidden').value = data.nome;
+                });
+        });
+    </script>
 }
