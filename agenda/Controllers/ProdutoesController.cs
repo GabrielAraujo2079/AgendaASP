@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agenda.Data;
 using agenda.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agenda.Controllers
 {
+    [Authorize]
     public class ProdutoesController : Controller
     {
         private readonly BDContext _context;
@@ -81,9 +83,7 @@ namespace agenda.Controllers
             return View(produto);
         }
 
-        // POST: Produtoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Preco,Quantidade")] Produto produto)

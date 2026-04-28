@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using agenda.Data;
 using agenda.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace agenda.Controllers
 {
+    [Authorize]
     public class ItemVendasController : Controller
     {
         private readonly BDContext _context;
